@@ -64,4 +64,7 @@ class MoviesController < ApplicationController
     redirect_to movies_path
   end
 
+  def movies_by_director
+  end
+
 end
