@@ -20,6 +20,11 @@ describe Movie do
     movie1.movies_by_same_director.each do |movie|
       movie.should be_an_instance_of(Movie)
     end
+  end
 
+  it "can return all ratings" do
+    movie1 = FactoryGirl.create(:movie, :rating => "PG")
+    movie2 = FactoryGirl.create(:movie, :rating => "R")
+    Movie.all_ratings.should be_an_instance_of(Array)
   end
 end

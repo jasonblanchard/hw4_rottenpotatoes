@@ -49,3 +49,5 @@ group :test, :development do
   gem 'factory_girl'
 end
 
+gem 'simplecov'
+
