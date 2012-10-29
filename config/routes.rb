@@ -1,5 +1,7 @@
 Rottenpotatoes::Application.routes.draw do
 
+  root :to => "movies#index", :as => :home
+
   match 'movies/:id/similar' => 'movies#movies_by_director', :as => :movies_by_director
 
   # first created -> highest priority.

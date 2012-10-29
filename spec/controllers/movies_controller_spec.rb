@@ -17,5 +17,13 @@ describe MoviesController do
       post :movies_by_director, {:id => movie.id }
       response.should render_template('movies_by_director')
     end
+
+    it "should redirect to home page if the movie does not have a director listed" do
+
+      movie = FactoryGirl.create(:movie, :id => 1)
+      get movie_path(movie.id)
+      response.should render_template('show')
+
+    end
   end
 end
