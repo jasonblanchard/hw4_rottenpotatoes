@@ -8,6 +8,21 @@ describe MoviesController do
       get :index
       response.should render_template("index")
     end
+
+    it "should sort all movies by title" do
+      
+      movie = FactoryGirl.create(:movie, :id => 1, :title => "Star Wars")
+
+      get :index, {:sort => 'title'}
+
+      response.should redirect_to("/?ratings%5BG%5D=G&ratings%5BNC-17%5D=NC-17&ratings%5BPG%5D=PG&ratings%5BPG-13%5D=PG-13&ratings%5BR%5D=R&sort=title")
+    end
+
+    it "should sort all movies by release date" do
+      get :index, {:sort => 'release_date'}
+
+      response.should redirect_to("/?ratings%5BG%5D=G&ratings%5BNC-17%5D=NC-17&ratings%5BPG%5D=PG&ratings%5BPG-13%5D=PG-13&ratings%5BR%5D=R&sort=release_date")
+    end
   end
 
   describe "Showing one movie's info" do
@@ -26,6 +41,38 @@ describe MoviesController do
 
       post :create, { :params => movie }
 
+      response.should redirect_to(movies_path)
+    end
+  end
+
+  describe "Updating an existing movie" do
+    it "should show the edit page" do
+      movie = FactoryGirl.create(:movie, :id => '1')
+    
+      get :edit, { :id => movie.id }
+
+      response.should render_template("edit")
+
+    end
+
+    it "should update properties of existing movie" do
+      movie = FactoryGirl.create(:movie, :title => "Star Wars", :director => "Lucas", :id => 1)
+
+      movie.stub(:update)
+      
+      put :update, {:id => movie.id }
+
+      response.should redirect_to(movie_path)
+    end
+  end
+
+  describe "Destroy existing movie" do
+    it "should destroy a movie in the database" do
+      movie = FactoryGirl.create(:movie, :id=> 1)
+
+      movie.stub(:destroy)
+
+      delete :destroy, {:id => movie.id }
       response.should redirect_to(movies_path)
     end
   end
